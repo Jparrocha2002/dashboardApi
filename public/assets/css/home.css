@@ -1,0 +1,191 @@
+/* General CSS for the dashboard */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.main-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100%;
+    background-color: gray;
+    color: #fff;
+    padding-top: 20px;
+}
+
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    padding-top: 80px; /* Adjusted padding top to accommodate navbar */
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 250px; /* Width of the sidebar */
+    height: 70px; /* Height of the navbar */
+    width: calc(100% - 250px); /* Calculate the width of the navbar */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-brand {
+    color: #fff;
+    display: flex;
+    justify-content: center; /* Align the content horizontally */
+    align-items: center;
+}
+
+.sidebar-menu {
+    padding-left: 0;
+    margin-top: 10px; /* Adjust the top margin to move the menu closer to the sidebar brand */
+}
+
+.sidebar-menu li {
+    padding: 10px;
+}
+
+.sidebar-menu li a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+}
+
+.sidebar-menu li a:hover {
+    background: rgb(34, 193, 195);
+    background-color: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: gray; /* Set background color */
+    color: #fff; /* Set font color */
+    font-weight: bold; /* Make font bold */
+}
+
+.button-click {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button-click:hover {
+    background-color: aquamarine;
+}
+
+.user-title {
+    margin: 0;
+}
+/* Style for the sidebar divider */
+.sidebar-divider {
+    border-top: 1px solid #fff;
+}
+
+/* Styles for the form */
+.form-container {
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    margin-bottom: 30px;
+    text-align: left;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #333;
+}
+
+.form-group textarea {
+    height: 100px;
+}
+
+.form-group button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.form-group button:hover {
+    background-color: #0056b3;
+}
+
+.back-button {
+    background-color: red;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+.back-button:hover {
+    background-color: rgb(212, 43, 43);
+}
