@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\LoginController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,14 +14,14 @@ use App\Http\Controllers\LoginController;
 |
 */
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', function () {
-    return view('home');
+Route::get('/home', [AuthController::class, 'home'])->name('home');
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
 });
-
-
-
 

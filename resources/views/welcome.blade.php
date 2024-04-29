@@ -14,11 +14,11 @@
             <div id="message" class="alert-message"></div>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                <input type="email" class="form-control" name="email" id="exampleFormControlInput1" placeholder="Email">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Email">
             </div>
             <div class="mb-3">
                 <label for="inputPassword5" class="form-label">Password</label>
-                <input type="password" id="inputPassword5" name="password" class="form-control" aria-describedby="passwordHelpInline" placeholder="Password">
+                <input type="password" id="password" name="password" class="form-control" aria-describedby="passwordHelpInline" placeholder="Password">
             </div>
             <button type="button" class="btn btn-primary btn-wider" id="button_click">Login</button>
             <p class="text-sm mt-4 text-center">Don't have an account? <a href="#" for="login" class="text-indigo-500 cursor-pointer">Register Here</a></p>
@@ -26,32 +26,47 @@
     </div>
 
     <script>
-        const loginFormElement = document.getElementById('loginFormElement');
-        const loginButton = document.getElementById('button_click');
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelector('#button_click').addEventListener('click', function(event){
+            event.preventDefault();
 
-        button_click.addEventListener('click', function() {
-            const formData = new FormData(loginFormElement);
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
 
-            fetch('http://127.0.0.1:8000/api/login', {
-                method: 'POST',
-                body: formData,
-            })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                const messageElement = document.getElementById('message');
-                messageElement.textContent = data.message;
-                messageElement.style.display = 'block'; 
-                messageElement.style.textAlign = 'left'; 
-                messageElement.style.color = data.message === 'Login Successfully' ? 'green' : 'red'; 
+            const data = {
+                email: email,
+                password: password,
+            }
 
-                if (data.message === 'Login Successfully') {
-                    // Redirect to the dashboard
-                    window.location.href = '/home';
+            fetch('/api/login', {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: 'Bearer ' + localStorage.getItem('token') // Add a space after 'Bearer'
                 }
             })
-            .catch(error => console.error('error', error));
-        });
-    </script>
+            .then(res => {
+                console.log(res);
+                return res.json();
+            })
+            .then(res => {
+                console.log(res);
+                if(res.access_token)
+                {
+                    localStorage.setItem('token', res.access_token);
+                    window.location.href = '/home';
+                } else {
+                    const messageElement = document.getElementById('message');
+                    messageElement.innerHTML = res.message;
+                    messageElement.style.display = 'block'; 
+                    messageElement.style.textAlign = 'left'; 
+                }
+            })
+        })
+    })
+</script>
+
 </body>
 </html>

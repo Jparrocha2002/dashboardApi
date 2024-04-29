@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
-
 class AuthController extends Controller
 {
     //
@@ -45,25 +44,28 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-        
-        if($validator->fails()){
+
+        if(auth()->attempt($request->only(['email', 'password'])))
+        {            
+            $token = auth()->user()->createToken('Test');
             return response()->json([
-                'status' => false,
-                'message' => 'validation error',
-                'errors' => $validator->errors()
-            ], 401);
-        } 
-
-        $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Login Successfully'], 200);
+                'user' => auth()->user(),
+                'access_token' => $token->plainTextToken,
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Invalid credentials'
+            ]); 
         }
+    }
+    
+    public function users()
+    {
+        return User::limit(10)->orderBy('id', 'desc')->get();
+    }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+    public function home() 
+    {
+        return view('home');
     }
 }

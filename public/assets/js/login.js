@@ -1,11 +1,13 @@
 const loginFormElement = document.getElementById('loginFormElement');
+        const loginButton = document.getElementById('button_click');
 
-        loginFormElement.addEventListener('submit', function(event){
-            event.preventDefault();
+        button_click.addEventListener('click', function() {
 
-            fetch('http://localhost/dashboardActivity/back_end/route/login.php', {
+            fetch('http://127.0.0.1:8000/api/login', {
                 method: 'POST',
-                body: new FormData(loginFormElement),
+                // body: new FormData(loginFormElement),
+                body: JSON.stringify(loginFormElement),
+                // header: {}
             })
             .then(res => res.json())
             .then(data => {
@@ -14,11 +16,11 @@ const loginFormElement = document.getElementById('loginFormElement');
                 messageElement.textContent = data.message;
                 messageElement.style.display = 'block'; 
                 messageElement.style.textAlign = 'left'; 
-                messageElement.style.color = data.message === 'login successful' ? 'green' : 'red'; 
+                messageElement.style.color = data.message === 'Login Successfully' ? 'green' : 'red'; 
 
-                if(data.message === 'login successful') 
-                {
-                    window.location.href = 'dashboard.php';
+                if (data.message === 'Login Successfully') {
+                    // Redirect to the dashboard
+                    window.location.href = '/home';
                 }
             })
             .catch(error => console.error('error', error));
