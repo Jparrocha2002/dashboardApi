@@ -63,9 +63,4 @@ class AuthController extends Controller
     {
         return User::limit(10)->orderBy('id', 'desc')->get();
     }
-
-    public function home() 
-    {
-        return view('home');
-    }
 }

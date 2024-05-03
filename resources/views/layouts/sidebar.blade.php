@@ -7,10 +7,9 @@
             <ul class="sidebar-menu">
                 <li class="menu-header">Main</li>
                 <li class="dropdown">
-                    <a href="{{ route('home') }}" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
+                    <a href="/home" class="nav-link"><i data-feather="monitor"></i><span>Dashboard</span></a>
                 </li>
-                <li><a class="nav-link" href="post.php"><i data-feather="grid"></i><span>Post</span></a></li>
-                <li><a class="nav-link" href="#"><i data-feather="grid"></i><span>Users</span></a></li>
+                <li><a class="nav-link" href="/user"><i data-feather="grid"></i><span>Users</span></a></li>
                 <li><a class="nav-link" onclick="confirmLogout()" href="#"><i data-feather="grid"></i><span>Logout</span></a></li>
             </ul>
         </aside>

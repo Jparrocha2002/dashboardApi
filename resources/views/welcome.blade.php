@@ -44,11 +44,10 @@
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
-                    Authorization: 'Bearer ' + localStorage.getItem('token') // Add a space after 'Bearer'
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
             })
             .then(res => {
-                console.log(res);
                 return res.json();
             })
             .then(res => {

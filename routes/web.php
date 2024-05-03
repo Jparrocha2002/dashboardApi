@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +21,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', [AuthController::class, 'home'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/user', [UserController::class, 'index'])->name('user');
+Route::match(['get', 'post'], '/user/create', [UserController::class, 'create']);
+Route::post('/store', [UserController::class, 'store']);
 
 Route::middleware('auth:api')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
