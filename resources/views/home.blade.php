@@ -6,5 +6,4 @@
 
     @yield('content')
     
-</body>
-</html>
+@include('layouts.footer')

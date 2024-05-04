@@ -2,12 +2,12 @@
 
 @section('content')
 
-<div class="main-content">
+<div class="main-content" style="background-color: skyblue;">
         <section class="section">
             <div class="section-body">
                 <div class="form-container">
                     <h2>Create New User</h2>
-                    <form id="createForm" action="" method="POST">
+                    <form id="createForm" action="" method="POST" onclick="maintenance()">
                         <div class="form-group">
                             <label for="first_name">Name:</label>
                             <input type="text" id="name" name="name">
@@ -20,11 +20,11 @@
                             <label for="password">Password:</label>
                             <input type="password" id="password" name="password">
                         </div>
-                        <div class="form-group">
-                            <button type="submit">Submit</button>
-                            <a href="/user" class="back-button">Back</a>
-                        </div>
                     </form>
+                    <div class="form-group">
+                        <button type="submit">Submit</button>
+                        <a href="/user" class="back-button">Back</a>
+                    </div>
                 </div>
             </div>
         </section>
@@ -65,5 +65,10 @@
             })
         })
      })
+
+     function maintenance()
+     {
+        alert('Under maintenance, sorry for the inconvenience.');
+     }
 </script>
 @endsection

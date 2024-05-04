@@ -19,7 +19,7 @@ body, html {
 .main-content {
     margin-left: 250px;
     padding: 20px;
-    padding-top: 80px; /* Adjusted padding top to accommodate navbar */
+    padding-top: 30px; /* Adjusted padding top to accommodate navbar */
 }
 
 .navbar {
@@ -103,6 +103,7 @@ body, html {
     border-radius: 10px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 0.8rem;
 }
 
 .button-click:hover {
