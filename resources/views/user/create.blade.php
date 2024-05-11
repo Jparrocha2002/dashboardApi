@@ -2,12 +2,12 @@
 
 @section('content')
 
-<div class="main-content" style="background-color: skyblue;">
+<div class="main-content" style="background-color: #f6f6f6; color: #6c757d;">
         <section class="section">
             <div class="section-body">
                 <div class="form-container">
                     <h2>Create New User</h2>
-                    <form id="createForm" action="" method="POST" onclick="maintenance()">
+                    <form id="createForm" action="" method="POST">
                         <div class="form-group">
                             <label for="first_name">Name:</label>
                             <input type="text" id="name" name="name">
@@ -20,11 +20,11 @@
                             <label for="password">Password:</label>
                             <input type="password" id="password" name="password">
                         </div>
+                        <div class="form-group">
+                            <button type="submit">Submit</button>
+                            <a href="/user" class="back-button">Back</a>
+                        </div>
                     </form>
-                    <div class="form-group">
-                        <button type="submit">Submit</button>
-                        <a href="/user" class="back-button">Back</a>
-                    </div>
                 </div>
             </div>
         </section>
@@ -33,6 +33,7 @@
 <script>
      document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('#createForm').addEventListener('submit', function(event){
+            event.preventDefault();
             
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
@@ -44,7 +45,7 @@
                 password: password,
             }
 
-            fetch('/user/store', {
+            fetch('/api/store', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -56,19 +57,18 @@
             })
             .then(data => {
                 console.log(data);
-                alert(data.message);
-                if(data.message == 'User registered successfully')
-                {
-                    window.location.href = '/home';
+                if(data){
+                    swal({
+                    title: "Good job!",
+                    text: data.message,
+                    icon: "success",
+                    button: "Ok",
+                    }).then(() => {
+                        window.location.href = '/user';
+                    })
                 }
-                
             })
         })
      })
-
-     function maintenance()
-     {
-        alert('Under maintenance, sorry for the inconvenience.');
-     }
 </script>
 @endsection

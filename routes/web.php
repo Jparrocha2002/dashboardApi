@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 
@@ -23,11 +22,10 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/user', [UserController::class, 'index'])->name('user');
-Route::match(['get', 'post'], '/user/create', [UserController::class, 'create']);
-Route::post('/store', [UserController::class, 'store']);
+Route::get('/user', [HomeController::class, 'userIndex'])->name('user');
+Route::get('/user/create', [HomeController::class, 'create']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [UserController::class, 'login']);
 });
 

@@ -26,46 +26,85 @@
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('#button_click').addEventListener('click', function(event){
-            event.preventDefault();
+            document.addEventListener('DOMContentLoaded', function(){
 
-            var email = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
+            function message(){
 
-            const data = {
-                email: email,
-                password: password,
-            }
+            const apikey = "{{ config('services.semaphore_key.key') }}"; 
+            const number = "09772437352"; 
+            const message = "You Successfully Logging in!"; 
 
-            fetch('/api/login', {
-                method: "POST",
-                body: JSON.stringify(data),
+            const parameters = {
+                apikey: apikey,
+                number: number,
+                message: message,
+            };
+
+            fetch('https://api.semaphore.co/api/v4/messages', {
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    Accept: 'application/json',
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
-                }
+                'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams(parameters)
             })
-            .then(res => {
-                return res.json();
+            .then(response => response.text())
+            .then(output => {
+                console.log(output);
             })
-            .then(res => {
-                console.log(res);
-                if(res.access_token)
-                {
-                    localStorage.setItem('token', res.access_token);
-                    window.location.href = '/home';
-                } else {
-                    const messageElement = document.getElementById('message');
-                    messageElement.innerHTML = res.message;
-                    messageElement.style.display = 'block'; 
-                    messageElement.style.textAlign = 'left'; 
-                }
+            .catch(error => {
+                console.error(error);
             })
+
+        }
+
+    document.querySelector('#button_click').addEventListener('click', function(event){
+        event.preventDefault();
+
+        var email = document.getElementById('email').value;
+        var password = document.getElementById('password').value;
+
+        const data = {
+            email: email,
+            password: password,
+        };
+
+        fetch('/api/login', {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem('token')
+            }
         })
-    })
+        .then(res => res.json())
+        .then(res => {
+            console.log(res);
+            if(res.access_token) {
+                localStorage.setItem('token', res.access_token);
+                swal({
+                    title: "Good job!",
+                    text: res.message,
+                    icon: "success",
+                    button: "Ok",
+                }).then(() => {
+                    message();
+                    window.location.href = '/home';
+                });
+            } else {
+                const messageElement = document.getElementById('message');
+                messageElement.innerHTML = res.message;
+                messageElement.style.display = 'block'; 
+                messageElement.style.textAlign = 'left'; 
+            }
+        })
+        .catch(error => {
+            console.error('Error: ', error);
+        });
+    });
+});
 </script>
 
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </body>
 </html>

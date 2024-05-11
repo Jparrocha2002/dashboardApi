@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="main-content" style="background-color: skyblue;">
+<div class="main-content" style="background-color: #f6f6f6; color: #6c757d;">
         <section class="section">
             <div class="section-body">
                 <div class="content">

@@ -10,4 +10,14 @@ class HomeController extends Controller
     {
         return view('home');    
     }
+
+    public function userIndex()
+    {
+        return view('user.index');
+    }
+
+    public function create()
+    {
+        return view('user.create');
+    }
 }
