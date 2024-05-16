@@ -5,13 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {   
     public function store(Request $request)
     {
-         // Validate the request data
+        // Validate the request data
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
@@ -38,20 +40,87 @@ class UserController extends Controller
         ], 201);
     }
 
-     public function login(Request $request)
+    public function login(Request $request)
     {
-        if(auth()->attempt($request->only(['email', 'password'])))
-        {            
-            $token = auth()->user()->createToken('Test');
-            return response()->json([
-                'user' => auth()->user(),
-                'access_token' => $token->plainTextToken,
-                'message' => 'Login Successfully'
+        try {
+            // get the user information
+            $user = User::where('email', $request->email)->first();
+    
+            if(empty($user))
+            {
+                return response()->json([
+                    'message' => '404 not found'
+                ]);
+            }
+            
+            if(!Hash::check($request->password, $user->password))
+            {
+                return response()->json([
+                    'message' => 'Invalid Credentials'
+                ], 404);
+            }
+
+            // Generating OTP code   
+            $otp = rand(100000, 999999);
+            $user->otp_code = Hash::make($otp);
+            $user->save();
+    
+            // send otp code to user login
+            Http::withoutVerifying()->post(env('SEMAPHORE_URI'), [
+                'apikey' => env('SEMAPHORE_API_KEY'),
+                'number' => env('SMS_NUMBER'),
+                'message' => 'Your OTP code is: ' . $otp
             ]);
-        } else {
+            
+            // return a message
             return response()->json([
-                'message' => 'Invalid credentials'
-            ]); 
+                'message' => 'Otp sent successfully',
+            ]);
+
+        } catch (\Exception $sms) {
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred: ' . $sms->getMessage()
+            ], 500);
+        }
+    }
+    
+    public function verifyOtp(Request $request)
+    {
+        try {
+
+            $request->validate([
+                'otp_code' => 'required',
+            ]);
+
+            // get the user information
+            $user = User::where('email', $request->email)->first();
+
+            // check if the user is not authenticated or the otp code is not hashed
+            if (!$user || !Hash::check($request->otp_code, $user->otp_code)) {
+                return response()->json([
+                    'message' => 'Invalid Credentials'
+                ], 401);
+            }
+            
+            $user->otp_code = null;
+            $user->save();
+
+            // generating token
+            $token = $user->createToken('token');
+
+            // Return a successful response with the token
+            return response()->json([
+                'status' => true,
+                'message' => 'OTP verified successfully',
+                'access_token' => $token->plainTextToken
+            ], 200);
+
+        } catch (\Exception $sms) {
+            return response()->json([
+                'status' => false,
+                'message' => 'An error occurred: ' . $sms->getMessage()
+            ], 500);
         }
     }
     
@@ -59,4 +128,23 @@ class UserController extends Controller
     {
         return User::limit(10)->orderBy('id', 'desc')->get();
     }
+
+    public function editUser(Request $request)
+    {
+        $validate = $request->validate([
+            'id' => 'required',
+            'name' => 'required',
+            'email' => 'required',
+        ]);
+
+        $user = User::findOrFail($request->id);
+
+        $user->update($validate);
+
+        return response()->json([
+            'message' => 'Updated Successfully',
+            'user' => $user,
+        ], 200);
+    }
+    
 }

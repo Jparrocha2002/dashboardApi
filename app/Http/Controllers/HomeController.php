@@ -20,4 +20,9 @@ class HomeController extends Controller
     {
         return view('user.create');
     }
+    
+    public function profile()
+    {
+        return view('profile.show');
+    }
 }

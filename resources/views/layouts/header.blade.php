@@ -14,7 +14,7 @@
         if(!token){
             window.location.href = '/';
         }
-        
+           
     </script>
 </head>
 

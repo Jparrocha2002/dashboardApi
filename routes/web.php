@@ -25,6 +25,8 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/user', [HomeController::class, 'userIndex'])->name('user');
 Route::get('/user/create', [HomeController::class, 'create']);
 
+Route::get('/profile/show', [HomeController::class, 'profile'])->name('profile');
+
 Route::middleware('auth:api')->group(function () {
     Route::post('/login', [UserController::class, 'login']);
 });

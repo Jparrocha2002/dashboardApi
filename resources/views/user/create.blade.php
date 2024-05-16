@@ -29,7 +29,6 @@
             </div>
         </section>
     </div>
-
 <script>
      document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('#createForm').addEventListener('submit', function(event){
