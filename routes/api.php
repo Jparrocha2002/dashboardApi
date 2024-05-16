@@ -23,6 +23,8 @@ Route::post('/login', [UserController::class, 'login']);
 Route::get('/users', [UserController::class, 'users']);
 Route::post('/store', [UserController::class, 'store']);            
 Route::post('/verify', [UserController::class, 'verifyOtp']);
+Route::middleware('auth:sanctum')->get('/getUser', [UserController::class, 'profile']);
+
 
 
 

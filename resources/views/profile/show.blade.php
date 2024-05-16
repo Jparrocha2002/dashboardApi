@@ -16,7 +16,7 @@
                             </div>
                             <div class="form-group col-md-4">
                                 <label for="email">Email:</label>
-                                <input type="email" class="form-control" id="email" name="email">
+                                <input type="email" class="form-control" id="email" name="email" disabled>
                             </div>
                         </div>
                         <div class="form-row">
@@ -31,7 +31,7 @@
     </section>
 </div>
 <script>
-    fetch('/api/users', {
+    fetch('/api/getUser', {
         method: 'GET',
         headers: {
             Authorization: 'Bearer ' + localStorage.getItem('token'),
@@ -41,8 +41,9 @@
     .then(res => {
         return res.json();
     }).then(data => {
-        document.getElementById('name').textContent = data.name;
-        document.getElementById('email').textContent = data.email;
+        console.log(data);
+        document.getElementById('name').value = data.name;
+        document.getElementById('email').value = data.email;
     })
 </script>
 @endsection

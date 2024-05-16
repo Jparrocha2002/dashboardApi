@@ -66,15 +66,16 @@ class UserController extends Controller
             $user->save();
     
             // send otp code to user login
-            Http::withoutVerifying()->post(env('SEMAPHORE_URI'), [
-                'apikey' => env('SEMAPHORE_API_KEY'),
-                'number' => env('SMS_NUMBER'),
-                'message' => 'Your OTP code is: ' . $otp
-            ]);
+            // Http::withoutVerifying()->post(env('SEMAPHORE_URI'), [
+            //     'apikey' => env('SEMAPHORE_API_KEY'),
+            //     'number' => env('SMS_NUMBER'),
+            //     'message' => 'Your OTP code is: ' . $otp
+            // ]);
             
             // return a message
             return response()->json([
                 'message' => 'Otp sent successfully',
+                'otp_code' => $otp,
             ]);
 
         } catch (\Exception $sms) {
@@ -145,6 +146,11 @@ class UserController extends Controller
             'message' => 'Updated Successfully',
             'user' => $user,
         ], 200);
+    }
+
+    public function profile(Request $request)
+    {
+        return response()->json($request->user());
     }
     
 }
