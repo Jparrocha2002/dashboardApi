@@ -18,6 +18,7 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
+                                                <th>Avatar</th>
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Action</th>
@@ -41,7 +42,6 @@
     <script>
         fetch('/api/users', {
             headers: {
-                Accept: 'application/json',
                 Authorization: 'Bearer ' + token
             }
         })
@@ -61,12 +61,15 @@
             for(let i = 0; i < data.length; i++)
             {
                 const body = `<td>${data[i].id}</td>        
+                            <td style="display: flex; justify-content: center; align-items: center;">
+                            <img src="storage/${data[i].profile_img}" alt="avatar" style="width: 45px; height:45px;" class="img-profile rounded-circle">
+                            </td>
                             <td>${data[i].name}</td>        
                             <td>${data[i].email}</td> 
                             <td>
-                                <button class="edit-button" style="background-color: yellow; font-size: 0.8rem;">
+                            <a class='edit' title='Edit' href="/editUser/${data[i].id}"><button class="edit-button" style="background-color: yellow; font-size: 0.8rem;">
                                     <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
-                                </button>
+                                </button></a>
 
                                 <button class="delete-button" style="background-color: red; font-size: 0.8rem;">
                                     <i class="fas fa-trash-alt"></i> <!-- Font Awesome delete icon -->

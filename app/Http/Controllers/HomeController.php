@@ -20,6 +20,11 @@ class HomeController extends Controller
     {
         return view('user.create');
     }
+
+    public function edit()
+    {
+        return view('user.edit');
+    }
     
     public function profile()
     {

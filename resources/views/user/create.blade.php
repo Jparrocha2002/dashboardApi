@@ -7,9 +7,13 @@
             <div class="section-body">
                 <div class="form-container">
                     <h2>Create New User</h2>
-                    <form id="createForm" action="" method="POST">
+                    <form id="createFormElement" action="" method="POST">
                         <div class="form-group">
-                            <label for="first_name">Name:</label>
+                            <label for="profile_img">Profile:</label>
+                            <input type="file" id="profile_img" name="profile_img">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Name:</label>
                             <input type="text" id="name" name="name">
                         </div>
                         <div class="form-group">
@@ -31,25 +35,18 @@
     </div>
 <script>
      document.addEventListener('DOMContentLoaded', function() {
-        document.querySelector('#createForm').addEventListener('submit', function(event){
+        document.querySelector('#createFormElement').addEventListener('submit', function(event){
             event.preventDefault();
             
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            const data = {
-                name: name,
-                email: email,
-                password: password,
-            }
+            const formElement = document.getElementById('createFormElement');
+            const formData = new FormData(formElement);
 
             fetch('/api/store', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + token
                 },
-                body: JSON.stringify(data), 
+                body: formData, 
             })
             .then(res => {
                 return res.json();

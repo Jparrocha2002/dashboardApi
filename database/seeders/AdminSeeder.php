@@ -14,12 +14,17 @@ class AdminSeeder extends Seeder
     */
     public function run(): void
     {
-        User::factory(10)->create();
-
+        // User::factory(10)->create();
         User::factory()->create([
             'name' => 'Jerry Molar Parrocha',
             'email' => 'j.parrocha@gmail.com',
-            'password' => Hash::make('12345678')
+            'address' => 'Western Poblacion',
+            'phone_number' => '09638753244',
+            'gender' => 'Male',
+            'status' => 'Single',
+            'password' => Hash::make('12345678'),
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
     }
 }

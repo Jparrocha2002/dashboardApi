@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NewUserMail;
 
 class UserController extends Controller
 {   
@@ -15,6 +17,7 @@ class UserController extends Controller
     {
         // Validate the request data
         $validator = Validator::make($request->all(), [
+            'profile_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:8',
@@ -31,6 +34,11 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+        if ($request->hasFile('profile_img')) {
+            $avatarPath = $request->file('profile_img')->store('avatars', 'public');
+            $user->profile_img = $avatarPath;
+        }
 
         $user->save();
 
@@ -72,6 +80,8 @@ class UserController extends Controller
             //     'message' => 'Your OTP code is: ' . $otp
             // ]);
             
+            Mail::to('j.parrocha@mlgcl.edu.ph')->send(new NewUserMail());
+
             // return a message
             return response()->json([
                 'message' => 'Otp sent successfully',
@@ -130,22 +140,29 @@ class UserController extends Controller
         return User::limit(10)->orderBy('id', 'desc')->get();
     }
 
-    public function editUser(Request $request)
+    public function editUser(Request $request, string $id)
     {
-        $validate = $request->validate([
-            'id' => 'required',
-            'name' => 'required',
-            'email' => 'required',
-        ]);
+        $user = User::findOrFail($id);
 
-        $user = User::findOrFail($request->id);
+        $user->role = $request->input('role');
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->address = $request->input('address');
+        $user->phone_number = $request->input('phone_number');
+        $user->status = $request->input('status');
+        $user->gender = $request->input('gender');
 
-        $user->update($validate);
+        if ($request->hasFile('profile_img')) {
+            $avatarPath = $request->file('profile_img')->store('avatars', 'public');
+            $user->profile_img = $avatarPath;
+        }
+
+        $user->save();
 
         return response()->json([
-            'message' => 'Updated Successfully',
-            'user' => $user,
-        ], 200);
+            'status' => true,
+            'message' => 'User Updated Successfully',
+        ], 201);
     }
 
     public function profile(Request $request)
