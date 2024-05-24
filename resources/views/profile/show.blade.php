@@ -19,37 +19,42 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Name</label>
-                                    <input type="text" name="name" class="form-control" id="name">
+                                    <input type="text" name="name" class="form-control" id="name" disabled>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Email</label>
-                                    <input type="text" name="email" class="form-control" id="email">
+                                    <input type="text" name="email" class="form-control" id="email" disabled>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Phone Number</label>
-                                    <input type="text" name="phone_number" class="form-control" id="phone_number">
+                                    <input type="text" name="phone_number" class="form-control" id="phone_number" disabled>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Address</label>
-                                    <input type="text" name="address" class="form-control" id="address">
+                                    <input type="text" name="address" class="form-control" id="address" disabled>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Gender</label>
-                                    <input type="text" name="gender" class="form-control" id="gender">
+                                    <input type="text" name="gender" class="form-control" id="gender" disabled>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Status</label>
-                                    <input type="text" name="status" class="form-control" id="status">
+                                    <input type="text" name="status" class="form-control" id="status" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" id="action_button">
+
                                 </div>
                             </div>
                         </div>
@@ -79,6 +84,11 @@
         document.getElementById('gender').value = data.gender;
         document.getElementById('status').value = data.status;
         document.getElementById('profile_img').src = "{{ asset('storage/') }}" + "/" + data.profile_img;
+
+        const buttonHtml = `<a href="/user/update/${data.id}" class="btn btn-primary">Edit</a>
+                            <a href="/user" class="btn btn-danger">Back</a>`;
+
+        document.getElementById('action_button').innerHTML = buttonHtml;
     })
 </script>
 @endsection

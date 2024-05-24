@@ -17,22 +17,35 @@ class UserController extends Controller
     {
         // Validate the request data
         $validator = Validator::make($request->all(), [
-            'profile_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            // 'profile_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
+            // 'address' => 'required|string|max:255',
+            // 'phone_number' => 'required|string',
+            // 'gender' => 'required|string',
+            // 'status' => 'required|string',
             'password' => 'required|string|min:8',
         ]);
 
-        // If validation fails, return error response
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
+        if ($validator->fails()) 
+        {
+            return response()->json([
+                'status' => false,
+                'messages' => $validator->errors(),
+            ], 400);
         }
+
+        $password = $request->input('password');
 
         // Create and save the user
         $user = new User([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'address' => $request->address,
+            'phone_number' => $request->phone_number,
+            'gender' => $request->gender,
+            'status' => $request->status,
+            'password' => Hash::make($password),
         ]);
 
         if ($request->hasFile('profile_img')) {
@@ -42,11 +55,15 @@ class UserController extends Controller
 
         $user->save();
 
+        Mail::to('j.parrocha@mlgcl.edu.ph')->send(new NewUserMail($user, $password));
+
         // Return success response with additional data
         return response()->json([
+            'status' => true,
             'message' => 'User Created Successfully',
         ], 201);
     }
+
 
     public function login(Request $request)
     {
@@ -80,7 +97,6 @@ class UserController extends Controller
             //     'message' => 'Your OTP code is: ' . $otp
             // ]);
             
-            Mail::to('j.parrocha@mlgcl.edu.ph')->send(new NewUserMail());
 
             // return a message
             return response()->json([
@@ -144,7 +160,6 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        $user->role = $request->input('role');
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->address = $request->input('address');
@@ -165,9 +180,36 @@ class UserController extends Controller
         ], 201);
     }
 
+    public function getUser(string $id)
+    {
+        $user = User::findOrFail($id);
+
+        return response()->json($user);
+    }
+
     public function profile(Request $request)
     {
         return response()->json($request->user());
     }
     
+    public function destroy(string $id)
+    {
+        $users = User::findorFail($id);
+
+        $users->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User Deleted Successfully'
+        ]);
+    }
+
+    // public function countUsers()
+    // {
+    //     $countUsers = User::query()->count();
+
+    //     return response()->json([
+    //         'count' => $countUsers
+    //     ]);
+    // }
 }

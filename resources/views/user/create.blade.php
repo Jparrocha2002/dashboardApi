@@ -8,21 +8,62 @@
                 <div class="form-container">
                     <h2>Create New User</h2>
                     <form id="createFormElement" action="" method="POST">
-                        <div class="form-group">
-                            <label for="profile_img">Profile:</label>
-                            <input type="file" id="profile_img" name="profile_img">
-                        </div>
-                        <div class="form-group">
-                            <label for="name">Name:</label>
-                            <input type="text" id="name" name="name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" id="email" name="email">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password:</label>
-                            <input type="password" id="password" name="password">
+                    <div class="form-group">
+                        <label>Profile</label>
+                        <input type="file" name="profile_img" class="form-control" id="profile_img">
+                    </div>
+                    <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" name="name" class="form-control" id="name" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" name="email" class="form-control" id="email" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Phone Number</label>
+                                    <input type="text" name="phone_number" class="form-control" id="phone_number">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <input type="text" name="address" class="form-control" id="address">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <select name="gender" class="form-select">
+                                        <option value="" selected disabled>Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select name="status" class="form-select">
+                                        <option value="" selected disabled>Status</option>
+                                        <option value="Single">Single</option>
+                                        <option value="Married">Married</option>
+                                        <option value="Widow">Widow</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" name="password" class="form-control" id="password">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <button type="submit">Submit</button>
@@ -53,15 +94,22 @@
             })
             .then(data => {
                 console.log(data);
-                if(data){
+                if(data.status){
                     swal({
                     title: "Good job!",
                     text: data.message,
                     icon: "success",
-                    button: "Ok",
+                    button: "Proceed",
                     }).then(() => {
                         window.location.href = '/user';
                     })
+                } else {
+                    swal({
+                        title: "Oops",
+                        text: "Something wrong with your information,\ncheck in the console if there's a error!",
+                        icon: "error",
+                        button: "Ok",
+                    });
                 }
             })
         })
