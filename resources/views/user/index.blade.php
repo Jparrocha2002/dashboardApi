@@ -26,7 +26,7 @@
                                         </thead>
                                         <tbody id="tablebody">
                                             <tr>
-        
+                                            
                                             </tr>
                                         </tbody>
                                     </table>
@@ -68,10 +68,11 @@
                             <td>${data[i].name}</td>        
                             <td>${data[i].email}</td> 
                             <td>
-                            <a class='edit' title='Edit' href="/user/update/${data[i].id}"><button class="edit-button" style="background-color: yellow; font-size: 0.8rem;">
-                                    <i class="fas fa-edit"></i> <!-- Font Awesome edit icon -->
-                                </button></a>
-
+                            <a class='edit' title='Edit' href="/user/update/${data[i].id}">
+                                <button class="edit-button" style="background-color: yellow; font-size: 0.8rem;">
+                                <i class="fas fa-pencil-alt"></i> <!-- Font Awesome pencil icon -->
+                                </button>
+                            </a>
                                 <button class="delete-button" onclick="deleteUser(${data[i].id})" style="background-color: red; font-size: 0.8rem;">
                                     <i class="fas fa-trash-alt"></i> <!-- Font Awesome delete icon -->
                                 </button>
@@ -109,7 +110,7 @@
                         title: "Good job!",
                         text: data.message,
                         icon: "success",
-                        button: "Ok",
+                        button: "Proceed",
                         }).then(() => {
                             window.location.href = '/user';
                     })

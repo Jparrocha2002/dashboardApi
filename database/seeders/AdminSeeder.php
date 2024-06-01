@@ -16,6 +16,7 @@ class AdminSeeder extends Seeder
     {
         // User::factory(10)->create();
         User::factory()->create([
+            'profile_img' => 'avatars/cutie_patootie.jpg',
             'name' => 'Jerry Molar Parrocha',
             'email' => 'j.parrocha@gmail.com',
             'address' => 'Western Poblacion',

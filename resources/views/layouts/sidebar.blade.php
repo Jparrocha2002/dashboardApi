@@ -11,6 +11,7 @@
                 </li>
                 <li><a class="nav-link" href="/profile/show"><i data-feather="grid"></i><span>Profile</span></a></li>
                 <li><a class="nav-link" href="/user"><i data-feather="grid"></i><span>Users</span></a></li>
+                <li><a class="nav-link" href="/posting"><i data-feather="grid"></i><span>Post</span></a></li>
                 <li><a class="nav-link" onclick="confirmLogout()" href="#"><i data-feather="grid"></i><span>Logout</span></a></li>
             </ul>
         </aside>

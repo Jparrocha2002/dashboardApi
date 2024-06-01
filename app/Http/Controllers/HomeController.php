@@ -32,4 +32,8 @@ class HomeController extends Controller
         return view('profile.show');
     }
 
+    public function post()
+    {
+        return view('post.posts');
+    }
 }

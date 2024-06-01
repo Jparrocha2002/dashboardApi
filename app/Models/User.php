@@ -48,4 +48,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class, 'name', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'name', 'id');
+    }
 }

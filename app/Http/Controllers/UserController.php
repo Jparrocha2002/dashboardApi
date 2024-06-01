@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\UserOtpMail;
 use App\Mail\NewUserMail;
 
 class UserController extends Controller
@@ -55,7 +56,7 @@ class UserController extends Controller
 
         $user->save();
 
-        Mail::to('j.parrocha@mlgcl.edu.ph')->send(new NewUserMail($user, $password));
+        // Mail::to($user->email)->send(new NewUserMail($user, $password));
 
         // Return success response with additional data
         return response()->json([
@@ -97,11 +98,12 @@ class UserController extends Controller
             //     'message' => 'Your OTP code is: ' . $otp
             // ]);
             
-
+            // Mail::to($user->email)->send(new UserOtpMail($otp, $user->email));
+            
             // return a message
             return response()->json([
                 'message' => 'Otp sent successfully',
-                'otp_code' => $otp,
+                'otp' => $otp,
             ]);
 
         } catch (\Exception $sms) {
@@ -204,12 +206,12 @@ class UserController extends Controller
         ]);
     }
 
-    // public function countUsers()
-    // {
-    //     $countUsers = User::query()->count();
+    public function getUserCount()
+    {
+        $countUsers = User::count();
 
-    //     return response()->json([
-    //         'count' => $countUsers
-    //     ]);
-    // }
+        return response()->json([
+            'count' => $countUsers
+        ]);
+    }
 }

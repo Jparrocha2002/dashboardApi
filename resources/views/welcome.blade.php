@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="{{ asset('bootstrap.min.css') }}" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
     <title>Document</title>
@@ -32,12 +32,12 @@
 
         <form id="otpFormElement" class="otp-form hidden" action="" method="POST">
             <div id="otpMessage" class="alert-message"></div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label for="inputEmail" class="form-label">Email address</label>
                 <input type="email" class="form-control" name="email" id="inputEmail" placeholder="Email" disabled>
-            </div>
+            </div> -->
             <div class="mb-3">
-                <label for="inputOtp" class="form-label">OTP</label>
+                <label for="inputOtp" class="form-label">Enter your Verification Code:</label>
                 <input type="text" class="form-control" name="otp_code" id="otp_code" placeholder="Enter OTP">
             </div>
             <button type="button" class="btn btn-primary btn-wider" id="verifyOtpBtn">Verify OTP</button>
@@ -74,7 +74,7 @@
             if(res.message === 'Otp sent successfully') {
                 document.getElementById('loginFormElement').classList.add('hidden');
                 document.getElementById('otpFormElement').classList.remove('hidden');
-                document.getElementById('inputEmail').value = email;
+                // document.getElementById('inputEmail').value = email;
             } else {
                 const messageElement = document.getElementById('message');
                 messageElement.innerHTML = res.message;
